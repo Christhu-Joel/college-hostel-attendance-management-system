@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Hostel Attendance Management System
 
 A responsive web app that replaces the paper attendance register for a college hostel.
@@ -131,3 +132,7 @@ hostel-attendance/
 Local dev is described above. For a single-server production setup, build the frontend
 (`npm run build`) and serve `frontend/dist` behind Nginx, run the API with
 `NODE_ENV=production`, and back up with `mysqldump`. See DESIGN.md §17.
+=======
+# college-hostel-attendance-management-system
+A web-based College Hostel Attendance Management System developed using React.js, Node.js, and MySQL to manage student attendance digitally, track present and absent students, monitor bed availability, and generate attendance reports.
+>>>>>>> dae16b6289f7876d3c0af158830a1053e22e2567
