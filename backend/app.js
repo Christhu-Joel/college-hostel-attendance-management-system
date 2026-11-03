@@ -15,7 +15,18 @@ if (config.env !== 'test') {
 }
 
 app.get('/api/health', (req, res) => {
-  res.json({ success: true, status: 'ok', timestamp: new Date().toISOString() });
+  res.json({
+    success: true,
+    status: 'ok',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'College Hostel Attendance API is running'
+  });
 });
 
 app.use('/api/auth', require('./routes/authRoutes'));
