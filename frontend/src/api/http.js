@@ -1,18 +1,21 @@
+
 import axios from 'axios';
 
 const TOKEN_KEY = 'ha_token';
 const USER_KEY = 'ha_user';
 
 const http = axios.create({
-  baseURL: '/api',
-  timeout: 20000,
+  baseURL: `${import.meta.env.VITE_API_URL}/api`,
+  timeout: 60000,
 });
 
 http.interceptors.request.use((config) => {
   const token = localStorage.getItem(TOKEN_KEY);
+
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
   return config;
 });
 
@@ -22,6 +25,7 @@ http.interceptors.response.use(
     if (err.response?.status === 401) {
       localStorage.removeItem(TOKEN_KEY);
       localStorage.removeItem(USER_KEY);
+
       if (!window.location.pathname.startsWith('/login')) {
         window.location.assign('/login');
       }
@@ -30,8 +34,11 @@ http.interceptors.response.use(
     const message =
       err.response?.data?.message ||
       (err.code === 'ECONNABORTED'
-        ? 'Request timed out. Check that the backend server is running.'
-        : 'Network error. Check that the backend server is running.');
+        ? 'Request timed out. Check the backend server.'
+        : err.response
+          ? `Server error: ${err.response.status}`
+          : 'Network error. Check backend URL and CORS settings.');
+
     return Promise.reject(new Error(message));
   }
 );
