@@ -8,12 +8,13 @@ async function start() {
     console.log('[db] MySQL connection OK');
   } catch (err) {
     console.error('[db] Could not connect to MySQL:', err.message);
-    console.error('[db] Import backend/database/hostel_attendance.sql and check .env credentials.');
   }
 
-  app.listen(config.port, () => {
-    console.log(`[server] Hostel Attendance API running on http://localhost:${config.port}`);
-    console.log(`[server] Health check: http://localhost:${config.port}/api/health`);
+  const PORT = process.env.PORT || config.port || 5000;
+
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`[server] Hostel Attendance API running on port ${PORT}`);
+    console.log(`[server] Health check: /api/health`);
   });
 }
 
