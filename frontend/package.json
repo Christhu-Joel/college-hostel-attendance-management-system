@@ -1,0 +1,29 @@
+{
+  "name": "hostel-attendance-frontend",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "axios": "^1.7.9",
+    "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.13.1",
+    "jspdf": "^2.5.2",
+    "jspdf-autotable": "^3.8.4",
+    "react": "^18.3.1",
+    "react-bootstrap": "^2.10.7",
+    "react-dom": "^18.3.1",
+    "react-icons": "^5.4.0",
+    "react-router-dom": "^6.28.1",
+    "recharts": "^2.15.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^6.0.7"
+  }
+}
