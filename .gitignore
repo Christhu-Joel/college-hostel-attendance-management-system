@@ -1,11 +1,9 @@
-<<<<<<< HEAD
 node_modules/
 .env
 npm-debug.log*
 *.log
 .DS_Store
 dist/
-=======
 # Logs
 logs
 *.log
@@ -155,4 +153,3 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
->>>>>>> dae16b6289f7876d3c0af158830a1053e22e2567

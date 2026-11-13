@@ -1,7 +1,15 @@
 require('dotenv').config();
 
+const env = process.env.NODE_ENV || 'development';
+const defaultAuthSecret = 'dev-hostel-attendance-secret-change-me';
+const authSecret = process.env.AUTH_SECRET || defaultAuthSecret;
+
+if (env === 'production' && (!process.env.AUTH_SECRET || authSecret.length < 32 || authSecret === defaultAuthSecret)) {
+  throw new Error('AUTH_SECRET must be a unique random value of at least 32 characters in production.');
+}
+
 const config = {
-  env: process.env.NODE_ENV || 'development',
+  env,
   port: parseInt(process.env.PORT || '5000', 10),
   db: {
     host: process.env.DB_HOST || 'localhost',
@@ -12,9 +20,12 @@ const config = {
     connectionLimit: parseInt(process.env.DB_CONNECTION_LIMIT || '10', 10),
     multipleStatements: true,
   },
-  corsOrigins: (process.env.CORS_ORIGINS || 'http://localhost:5173').split(','),
+  corsOrigins: (process.env.CORS_ORIGINS || 'http://localhost:5173,http://127.0.0.1:5173')
+    .split(',')
+    .map((origin) => origin.trim().replace(/\/+$/, ''))
+    .filter(Boolean),
   auth: {
-    secret: process.env.AUTH_SECRET || 'dev-hostel-attendance-secret-change-me',
+    secret: authSecret,
     tokenTtlSeconds: parseInt(process.env.AUTH_TOKEN_TTL || '28800', 10),
   },
 };

@@ -4,8 +4,12 @@ import axios from 'axios';
 const TOKEN_KEY = 'ha_token';
 const USER_KEY = 'ha_user';
 
+const API_BASE = (
+  import.meta.env.VITE_API_URL || 'https://college-hostel-attendance-management.onrender.com'
+).replace(/\/+$/, '');
+
 const http = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL}/api`,
+  baseURL: `${API_BASE}/api`,
   timeout: 60000,
 });
 
@@ -37,7 +41,7 @@ http.interceptors.response.use(
         ? 'Request timed out. Check the backend server.'
         : err.response
           ? `Server error: ${err.response.status}`
-          : 'Network error. Check backend URL and CORS settings.');
+          : `Network error. Check backend URL and CORS settings (${API_BASE}).`);
 
     return Promise.reject(new Error(message));
   }

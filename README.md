@@ -1,11 +1,8 @@
-<<<<<<< HEAD
 # Hostel Attendance Management System
 
 A responsive web app that replaces the paper attendance register for a college hostel.
 Includes warden login, built with **React + Bootstrap 5** (frontend), **Node.js + Express**
 (backend, MVC + Service + Repository), and **MySQL 8**.
-
-Full design document: [`docs/DESIGN.md`](docs/DESIGN.md)
 
 ---
 
@@ -70,7 +67,7 @@ npm install
 copy .env.example .env
 ```
 
-Edit `.env` — set `DB_PASSWORD` to your MySQL password (and `DB_USER` if not `root`).
+Fill in `.env` with your own local database credentials and a random auth secret.
 
 ### 3. Start the backend
 
@@ -83,7 +80,8 @@ npm run dev        # http://localhost:5000   (health: /api/health)
 ```bash
 cd frontend
 npm install
-npm run dev        # http://localhost:5173   (proxies /api -> :5000)
+copy .env.example .env
+npm run dev        # http://localhost:5173
 ```
 
 Open http://localhost:5173.
@@ -101,38 +99,35 @@ Open http://localhost:5173.
 | `frontend: npm run build` | Production build to `dist/` |
 | `frontend: npm run preview` | Preview the production build |
 
-## Configuration (.env)
+## Configuration
 
-| Var | Default | Notes |
-|-----|---------|-------|
-| `PORT` | `5000` | API port |
-| `DB_HOST` | `localhost` | |
-| `DB_PORT` | `3306` | |
-| `DB_USER` | `root` | |
-| `DB_PASSWORD` | *(empty)* | **Set this to your MySQL password** |
-| `DB_NAME` | `hostel_attendance` | |
-| `CORS_ORIGINS` | `http://localhost:5173` | Comma-separated allowed origins |
+All configuration lives in local `.env` files. They are **gitignored** and must never be
+committed. Use the provided `backend/.env.example` and `frontend/.env.example` as
+templates, and set the real values in your hosting provider's environment settings.
+
+Production deployments must set a strong, unique `AUTH_SECRET` (32+ random characters);
+the API refuses to start in production without one.
+
+## Security Checklist
+
+- Change the seeded `admin` password immediately after the first login.
+- Set a unique `AUTH_SECRET` per deployment and keep it out of the repository.
+- Set `CORS_ORIGINS` to only the exact frontend origins you use.
+- Rotate any credential that has ever been committed or shared.
+- Keep `.env` files out of git; they are already ignored.
 
 ## Project Structure
-
-See [`docs/DESIGN.md`](docs/DESIGN.md) §13 for the full folder layout and §12 for the
-complete REST API reference.
 
 ```
 hostel-attendance/
 ├── backend/          Express API (controllers → services → repositories → MySQL)
 │   └── database/     schema.sql, seed.sql, hostel_attendance.sql (combined import)
 ├── frontend/         React SPA (Vite)
-├── docs/DESIGN.md    Full design document (HLD, LLD, ERD, API, testing, deployment)
 └── README.md
 ```
 
 ## Deployment
 
-Local dev is described above. For a single-server production setup, build the frontend
-(`npm run build`) and serve `frontend/dist` behind Nginx, run the API with
-`NODE_ENV=production`, and back up with `mysqldump`. See DESIGN.md §17.
-=======
-# college-hostel-attendance-management-system
-A web-based College Hostel Attendance Management System developed using React.js, Node.js, and MySQL to manage student attendance digitally, track present and absent students, monitor bed availability, and generate attendance reports.
->>>>>>> dae16b6289f7876d3c0af158830a1053e22e2567
+For a single-server production setup, build the frontend (`npm run build`) and serve
+`frontend/dist` behind Nginx, run the API with `NODE_ENV=production`, and back up with
+`mysqldump`.

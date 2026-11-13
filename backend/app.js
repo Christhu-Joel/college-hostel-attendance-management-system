@@ -5,14 +5,42 @@ const config = require('./config/config');
 const { notFoundHandler, errorHandler } = require('./middleware/errorMiddleware');
 const authRequired = require('./middleware/authMiddleware');
 
+
+
 const app = express();
 
-app.use(cors({ origin: config.corsOrigins, credentials: true }));
+const isAllowedOrigin = (origin) => {
+  if (!origin) return true;
+
+  const normalized = origin.replace(/\/+$/, '');
+  if (config.corsOrigins.includes('*') || config.corsOrigins.includes(normalized)) {
+    return true;
+  }
+
+  return (
+    config.env !== 'production' &&
+    /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(normalized)
+  );
+};
+
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (isAllowedOrigin(origin)) {
+        return callback(null, true);
+      }
+      return callback(null, false);
+    },
+    credentials: true,
+  })
+);
 app.use(express.json({ limit: '2mb' }));
 app.use(express.urlencoded({ extended: true }));
 if (config.env !== 'test') {
   app.use(morgan(config.env === 'production' ? 'combined' : 'dev'));
 }
+
+
 
 app.get('/api/health', (req, res) => {
   res.json({
