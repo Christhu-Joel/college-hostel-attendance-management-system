@@ -7,8 +7,9 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: 'https://college-hostel-attendance-management.onrender.com',
+        target: process.env.VITE_API_URL || 'https://college-hostel-attendance-management.onrender.com',
         changeOrigin: true,
+        secure: true,
       },
     },
   },
